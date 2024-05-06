@@ -1,9 +1,17 @@
-# Use a imagem base do Go 1.17
+# Use a imagem oficial do Go
 FROM golang:1.17
 
-# Defina o diretório de trabalho dentro do contêiner
-WORKDIR /go/src
+# Defina o diretório de trabalho no contêiner
+WORKDIR /go/src/estudo-microservice
 
+# Copie os arquivos do projeto para o contêiner
+COPY . .
 
-# Defina o comando padrão para executar o aplicativo
-CMD ["tail" ,"-f","/dev/null"]
+# Baixe todas as dependências
+RUN go get -d -v ./...
+
+# Compile o aplicativo
+RUN go install -v ./...
+
+# Execute o aplicativo
+CMD ["estudo-microservice"]

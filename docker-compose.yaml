@@ -1,7 +1,8 @@
 version: '3'
-
 services:
   app:
     build: .
     volumes:
-      - .:/go/src/
+      - /home/x8/go/estudo-microservice:/go/src/estudo-microservice
+    ports:
+      - "8080:8080"
