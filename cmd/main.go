@@ -6,6 +6,7 @@ import (
 	"log"
 
 	ckafka "github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/saturi11/gateway/adapter/broker/kafka"
 	"github.com/saturi11/gateway/adapter/factory"
 	"github.com/saturi11/gateway/adapter/presenter/transaction"
