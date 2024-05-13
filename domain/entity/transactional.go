@@ -2,30 +2,27 @@ package entity
 
 import "errors"
 
-const(
+const (
 	APPROVED = "approved"
 	REJECTED = "rejected"
 )
 
-
 type Transactional struct {
-	ID       string
-	AccontId string
-	Amount   float64
-	CreditCard	CreditCard
-	Status   string
+	ID            string
+	AccontId      string
+	Amount        float64
+	CreditCard    CreditCard
+	Status        string
 	ErrorMesssage string
 }
-
 
 func NewTransactional() *Transactional {
 	return &Transactional{}
 }
 
-
 func (t *Transactional) Isvalid() error {
 	if t.Amount > 1000 {
-		return errors.New("transactional amount must be less than 1000")
+		return errors.New("insufficient funds in the account")
 	}
 	if t.Amount < 1 {
 		return errors.New("transactional amount must be bigger than 1")
@@ -33,6 +30,6 @@ func (t *Transactional) Isvalid() error {
 	return nil
 }
 
-func (t *transactional) SetCreditCard(creditCard *CreditCard) {
-	t.CreditCard = creditCard
+func (t *Transactional) SetCreditCard(creditCard *CreditCard) {
+	t.CreditCard = *creditCard
 }
