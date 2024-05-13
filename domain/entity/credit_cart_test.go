@@ -47,5 +47,5 @@ func TestCreditCardCvv(t *testing.T) {
 	assert.Nil(t, err)
 
 	_, err = NewCreditCard("4193523830170205", "Jose da silva", 12, 2025, 1234)
-	assert.Equal(t, "invalid cvv", err.Error())
+	assert.Equal(t, "invalid CVV", err.Error())
 }

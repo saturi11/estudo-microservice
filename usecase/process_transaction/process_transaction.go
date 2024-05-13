@@ -14,8 +14,8 @@ type Processtransaction struct {
 }
 
 // NewProcessTransaction is a function that creates a new instance of the Processtransaction struct.
-func NewProcessTransaction(repository repository.TransactionalRepository) *Processtransaction {
-	return &Processtransaction{Repository: repository}
+func NewProcessTransaction(repository repository.TransactionalRepository, producerInterface broker.Producer, topic string) *Processtransaction {
+	return &Processtransaction{Repository: repository, Producer: producerInterface, Topic: topic}
 }
 
 // Execute is a method that executes the process transaction use case.

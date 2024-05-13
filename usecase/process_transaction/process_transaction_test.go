@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/golang/mock/gomock"
+	mock_broker "github.com/saturi11/gateway/adapter/broker/mock"
 	"github.com/saturi11/gateway/domain/entity"
 	mock_repository "github.com/saturi11/gateway/domain/repository/mock"
 	"github.com/stretchr/testify/assert"
@@ -37,7 +38,10 @@ func TestProcessTransaction_ExecuteInvalidCreditCard(t *testing.T) {
 		Insert(input.ID, input.AccontId, input.Amount, expectedOutput.Status, expectedOutput.ErrorMessage).
 		Return(nil)
 
-	usecase := NewProcessTransaction(repositoryMock)
+	producerMock := mock_broker.NewMockProducer(ctrl)
+	producerMock.EXPECT().Publish(expectedOutput, []byte(input.ID), "transaction_result")
+
+	usecase := NewProcessTransaction(repositoryMock, producerMock, "transaction_result")
 	output, err := usecase.Execute(input)
 	assert.Nil(t, err)
 	assert.Equal(t, expectedOutput, output)
@@ -70,7 +74,10 @@ func TestProcessTransaction_ExecuteRejectedTransaction(t *testing.T) {
 		Insert(input.ID, input.AccontId, input.Amount, expectedOutput.Status, expectedOutput.ErrorMessage).
 		Return(nil)
 
-	usecase := NewProcessTransaction(repositoryMock)
+	producerMock := mock_broker.NewMockProducer(ctrl)
+	producerMock.EXPECT().Publish(expectedOutput, []byte(input.ID), "transaction_result")
+
+	usecase := NewProcessTransaction(repositoryMock, producerMock, "transaction_result")
 	output, err := usecase.Execute(input)
 	assert.Nil(t, err)
 	assert.Equal(t, expectedOutput, output)
@@ -103,7 +110,10 @@ func TestProcessTransaction_ExecuteApprovedTransaction(t *testing.T) {
 		Insert(input.ID, input.AccontId, input.Amount, expectedOutput.Status, expectedOutput.ErrorMessage).
 		Return(nil)
 
-	usecase := NewProcessTransaction(repositoryMock)
+	producerMock := mock_broker.NewMockProducer(ctrl)
+	producerMock.EXPECT().Publish(expectedOutput, []byte(input.ID), "transaction_result")
+
+	usecase := NewProcessTransaction(repositoryMock, producerMock, "transaction_result")
 	output, err := usecase.Execute(input)
 	assert.Nil(t, err)
 	assert.Equal(t, expectedOutput, output)
