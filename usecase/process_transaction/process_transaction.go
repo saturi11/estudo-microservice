@@ -1,6 +1,7 @@
 package process_transaction
 
 import (
+	"github.com/saturi11/gateway/adapter/broker"
 	"github.com/saturi11/gateway/domain/entity"
 	"github.com/saturi11/gateway/domain/repository"
 )
@@ -8,6 +9,8 @@ import (
 // Processtransaction is a struct that represents the process transaction use case.
 type Processtransaction struct {
 	Repository repository.TransactionalRepository
+	Producer   broker.Producer
+	Topic      string
 }
 
 // NewProcessTransaction is a function that creates a new instance of the Processtransaction struct.
@@ -50,6 +53,10 @@ func (p *Processtransaction) approvedTransaction(input TransactionalDTOInput, tr
 		Status:       entity.APPROVED,
 		ErrorMessage: "",
 	}
+	err = p.Publish(output, []byte(transactional.ID))
+	if err != nil {
+		return TransactionalDTOOutput{}, err
+	}
 	return output, nil
 }
 
@@ -66,5 +73,20 @@ func (p *Processtransaction) rejectdTransaction(transactional *entity.Transactio
 		Status:       entity.REJECTED,
 		ErrorMessage: invalidTransactional.Error(),
 	}
+	err = p.Publish(output, []byte(transactional.ID))
+	if err != nil {
+		return TransactionalDTOOutput{}, err
+	}
 	return output, nil
+}
+
+// Publish is a method that publishes the output of the process transaction use case.
+// It takes an input of type TransactionalDTOOutput and a byte slice as the key,
+// and returns an error.
+func (p *Processtransaction) Publish(output TransactionalDTOOutput, key []byte) error {
+	err := p.Producer.Publish(output, key, p.Topic)
+	if err != nil {
+		return err
+	}
+	return nil
 }

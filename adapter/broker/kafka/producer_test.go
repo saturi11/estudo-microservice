@@ -1,4 +1,3 @@
-// Package kafka provides functionality for interacting with Kafka.
 package kafka
 
 import (
