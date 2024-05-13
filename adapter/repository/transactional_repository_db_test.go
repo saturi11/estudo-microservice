@@ -1,3 +1,6 @@
+// This file contains the unit test for the TransactionalRepositoryDb type in the repository package.
+// It tests the functionality of the Insert method.
+
 package repository
 
 import (
@@ -8,6 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestTransactionalDbInsert is a unit test function that tests the Insert method of the TransactionalRepositoryDb type.
+// It sets up the necessary fixtures, inserts a transaction into the database, and asserts that no error occurred.
 func TestTransactionalDbInsert(t *testing.T) {
 	migrationsDir := "fixture/sql"
 	db := fixture.Up(migrationsDir)

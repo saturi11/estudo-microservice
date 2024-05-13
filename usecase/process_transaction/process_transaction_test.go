@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestProcessTransaction_ExecuteInvalidCreditCard tests the execution of the ProcessTransaction use case
+// when an invalid credit card is provided.
 func TestProcessTransaction_ExecuteInvalidCreditCard(t *testing.T) {
 	input := TransactionalDTOInput{
 		ID:                        "1",
@@ -41,6 +43,8 @@ func TestProcessTransaction_ExecuteInvalidCreditCard(t *testing.T) {
 	assert.Equal(t, expectedOutput, output)
 }
 
+// TestProcessTransaction_ExecuteRejectedTransaction tests the execution of the ProcessTransaction use case
+// when a transaction is rejected due to insufficient funds in the account.
 func TestProcessTransaction_ExecuteRejectedTransaction(t *testing.T) {
 	input := TransactionalDTOInput{
 		ID:                        "1",
@@ -72,6 +76,8 @@ func TestProcessTransaction_ExecuteRejectedTransaction(t *testing.T) {
 	assert.Equal(t, expectedOutput, output)
 }
 
+// TestProcessTransaction_ExecuteApprovedTransaction tests the execution of the ProcessTransaction use case
+// when a transaction is approved.
 func TestProcessTransaction_ExecuteApprovedTransaction(t *testing.T) {
 	input := TransactionalDTOInput{
 		ID:                        "1",

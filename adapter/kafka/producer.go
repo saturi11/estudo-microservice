@@ -17,6 +17,13 @@ func NewKafkaProducer(configMap *ckafka.ConfigMap, presenter presenter.Presenter
 	}
 }
 
+// Publish sends the given message to the specified topic in Kafka.
+// The `msg` parameter represents the message to be published.
+// The `key` parameter is an optional key used for message partitioning.
+// The `topic` parameter specifies the topic to which the message should be published.
+// Returns an error if the message fails to be published.
+// Example usage: err := producer.Publish("Hello, Kafka!", []byte("key"), "my-topic")
+// Note: This function assumes that the Kafka producer is already initialized and connected.
 func (p *Producer) Publish(msg interface{}, key []byte, topic string) error {
 	producer, err := ckafka.NewProducer(p.ConfigMap)
 	if err != nil {
